@@ -1,4 +1,4 @@
-import { Box, Button, Stack, TextField } from "@mui/material";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 
 function Home() {
@@ -29,9 +29,15 @@ function Home() {
   };
 
   return (
-    <Box>
-      <Box sx={{ m: 5, width: "30%"}}>
+    <Box mt={20}>
+      <Box
+        sx={{
+          width: { xs: "80%", sm: "60%", md: "40%", lg: "30%" },
+          m: "auto",
+        }}
+      >
         <Stack direction="column" spacing={2}>
+        <Typography align="center" variant="h5">Sign Up</Typography>
           <TextField
             id="outlined-basic"
             label="Name"
@@ -53,6 +59,7 @@ function Home() {
             label="Password"
             variant="outlined"
             name="password"
+            type="password"
             value={userData.password}
             onChange={handleChange}
           />
@@ -60,6 +67,7 @@ function Home() {
             id="outlined-basic"
             label="Confirm Password"
             variant="outlined"
+            type="password"
             name="confirmPassword"
             value={userData.confirmPassword}
             onChange={handleChange}
