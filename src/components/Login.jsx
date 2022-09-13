@@ -13,30 +13,31 @@ function Login() {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if(token) {
-            navigate('/dashboard');
+        if (token) {
+            navigate("/dashboard");
         }
-    }, [])
-    
-    
+    }, []);
+
     const handleChange = (e) => {
         const { value, name } = e.target;
-        
+
         setFormData((prev) => ({
             ...prev,
             [name]: value,
         }));
     };
-    
+
     const handleSubmit = async (e) => {
         try {
             const res = await axios.post(`${URL}/user/login`, formData);
             if (res.data) {
                 await localStorage.setItem("token", res.data);
-                navigate('/dashboard');
-        }
-        } catch (err) {
-        console.log(err);
+                navigate("/dashboard");
+            }
+            } catch (err) {
+                alert("Invalid Credentials");
+                console.log(err);
+                setFormData({email: "", password: "" });
         }
     };
 
@@ -47,23 +48,23 @@ function Login() {
             Login
             </Typography>
             <TextField
-            label="Email"
-            variant="outlined"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
+                label="Email"
+                variant="outlined"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
             />
             <TextField
-            label="Password"
-            variant="outlined"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
+                label="Password"
+                variant="outlined"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
             />
             <Button color="accent" variant="contained" onClick={handleSubmit}>
-            Login
+                Login
             </Button>
         </Stack>
         </Box>

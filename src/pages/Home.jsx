@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import Login from "../components/Login";
 import Navbar from "../components/Navbar";
-import Signup from "../components/Signup";
+// import Signup from "../components/Signup";
 
 function Home() {
   return (
