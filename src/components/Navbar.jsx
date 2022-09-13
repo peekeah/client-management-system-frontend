@@ -8,12 +8,14 @@ import {
     Toolbar,
     Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Login from "./Login";
 
 function Navbar() {
     const [open, setOpen] = useState(false);
-
+    const [token, setToken] = useState(null);
+    const navigate = useNavigate();
     const style = {
         position: "absolute",
         top: "45%",
@@ -25,6 +27,17 @@ function Navbar() {
         boxShadow: 24,
         p: 4,
     };
+
+    useEffect(() => {
+        const data = localStorage.getItem("token");
+        data ? setToken(data) : setOpen(null);
+    }, []);
+
+    const handleSignout = async(e) => {
+        setToken(null);
+        navigate('/');
+        await localStorage.removeItem("token");
+    }
 
     return (
         <Box>
@@ -42,21 +55,25 @@ function Navbar() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 Client Management
             </Typography>
-            <Button color="inherit" onClick={() => setOpen(true)}>
-                Login
+            <Button
+                color="inherit"
+                // onClick={() => setOpen(true)}
+                onClick={handleSignout}
+            >
+                {token ? "Sign Out" : null}
             </Button>
             </Toolbar>
         </AppBar>
-        <Modal
-            open={open}
-            onClose={() => setOpen(false)}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box sx={style}>
-            <Login />
-            </Box>
-        </Modal>
+        {/* <Modal
+                open={open}
+                onClose={() => setOpen(false)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                <Login />
+                </Box>
+            </Modal> */}
         </Box>
     );
 }
