@@ -1,4 +1,4 @@
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,8 @@ function Login() {
         password: "",
     });
 
+    const [error, setError] = useState(false);
+
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
@@ -19,6 +21,10 @@ function Login() {
     }, []);
 
     const handleChange = (e) => {
+        if(error) {
+            setError(false);
+        }
+        
         const { value, name } = e.target;
 
         setFormData((prev) => ({
@@ -35,38 +41,39 @@ function Login() {
                 navigate("/dashboard");
             }
             } catch (err) {
-                alert("Invalid Credentials");
+                setError(true);
                 console.log(err);
                 setFormData({email: "", password: "" });
-        }
-    };
-
+            }
+        };
+        
     return (
         <Box>
-        <Stack direction="column" spacing={2}>
-            <Typography variant="h5" align="center">
-            Login
-            </Typography>
-            <TextField
-                label="Email"
-                variant="outlined"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-            />
-            <TextField
-                label="Password"
-                variant="outlined"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-            />
-            <Button color="accent" variant="contained" onClick={handleSubmit}>
+            <Stack direction="column" spacing={2}>
+                <Typography variant="h5" align="center">
                 Login
-            </Button>
-        </Stack>
+                </Typography>
+                <TextField
+                    label="Email"
+                    variant="outlined"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                />
+                <TextField
+                    label="Password"
+                    variant="outlined"
+                    name="password"
+                    type="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                />
+                {error ? <Alert severity="error" >Invalid Credentials</Alert> : null }
+                <Button color="accent" variant="contained" onClick={handleSubmit}>
+                    Login
+                </Button>
+            </Stack>
         </Box>
     );
 }
